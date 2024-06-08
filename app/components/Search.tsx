@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { encode } from "punycode";
 
 const Search = () => {
   const [summonerName, setSummonerName] = useState("");
@@ -8,7 +9,9 @@ const Search = () => {
 
   const handleSearch = () => {
     if (summonerName.trim()) {
-      router.push(`/summoner/${summonerName}`);
+      const encodedName = encodeURIComponent(summonerName);
+      console.log("encoded name: " + encodedName);
+      router.push(`/search/${encodedName}`);
     }
   };
 

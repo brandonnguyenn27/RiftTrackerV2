@@ -10,6 +10,8 @@ export async function GET(request: NextRequest) {
       { status: 400 }
     );
   }
+
+  console.log("decoded summoner: " + summonerName);
   try {
     const playerInfo = await getPlayerInfo(summonerName);
     return NextResponse.json(playerInfo, { status: 200 });
