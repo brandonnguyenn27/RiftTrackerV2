@@ -6,11 +6,7 @@ export function usePlayerData(playerName: string) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const decodedPlayerName = decodeURIComponent(playerName);
-        console.log("decoded player name: " + decodedPlayerName);
-        const response = await fetch(
-          `/api/getSummoner?username=${decodedPlayerName}`
-        );
+        const response = await fetch(`/api/getSummoner?username=${playerName}`);
         const data = await response.json();
         setPlayerData(data);
       } catch (error) {

@@ -1,13 +1,10 @@
 "use client";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { useState, useEffect, use } from "react";
+import { useParams } from "next/navigation";
 import { usePlayerData } from "@/app/hooks/usePlayerData";
 
 export default function PlayerPage() {
-  const { summonerName } = useParams();
-  console.log(summonerName);
+  const summonerName = useParams().summonerName;
   const playerData = usePlayerData(summonerName as string);
   console.log(playerData);
-
-  return <div>Hello</div>;
+  return <div>{playerData.matchHistory[0].info.gameMode}</div>;
 }

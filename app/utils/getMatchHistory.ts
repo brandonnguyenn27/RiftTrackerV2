@@ -3,9 +3,7 @@ import axios from "axios";
 
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
 export async function getPlayerPUUID(playerNameParam: string) {
-  const decodedPlayerName = decodeURIComponent(playerNameParam);
-  console.log("decoded player name: " + decodedPlayerName);
-  const [playerName, playerTag] = decodedPlayerName.split("#");
+  const [playerName, playerTag] = playerNameParam.split("#");
   console.log(playerName, playerTag);
   const url = `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${playerName}/${playerTag}?api_key=${RIOT_API_KEY}`;
   try {

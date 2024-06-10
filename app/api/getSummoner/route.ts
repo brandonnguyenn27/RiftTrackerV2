@@ -3,7 +3,7 @@ import { getPlayerInfo } from "@/app/utils/getMatchHistory";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const summonerName = searchParams.get("username");
+  const summonerName = decodeURIComponent(searchParams.get("username") ?? "");
   if (!summonerName) {
     return NextResponse.json(
       { error: "Missing username query parameter" },
