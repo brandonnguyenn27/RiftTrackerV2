@@ -48,7 +48,10 @@ export async function getMatchHistory(puuid: string) {
       .get(matchURL)
       .then((response) => response.data)
       .catch((err) => err);
-    matchDataArray.push(matchData);
+    if (matchData.info.gameMode !== "CHERRY") {
+      //only view non-arena games bc I don't want to make a special component for it
+      matchDataArray.push(matchData);
+    }
   }
   return matchDataArray;
 }
