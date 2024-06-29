@@ -1,7 +1,7 @@
-import { match } from "assert";
 import axios from "axios";
 
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
+const gameCount = 5; //amount of games to fetch
 export async function getPlayerPUUID(playerNameParam: string) {
   const [playerName, playerTag] = playerNameParam.split("#");
   console.log(playerName, playerTag);
@@ -16,44 +16,24 @@ export async function getPlayerPUUID(playerNameParam: string) {
   }
 }
 
-export async function getMatchHistoryv2(puuid: string) {
-  const url = `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?api_key=${RIOT_API_KEY}`;
-  try {
-    const gameIDs = await axios.get(url);
-    const matchDataArray = await Promise.all(
-      gameIDs.data.map(async (matchID: string) => {
-        const matchUrl = `https://americas.api.riotgames.com/lol/match/v5/matches/${matchID}?api_key=${RIOT_API_KEY}`;
-        const matchData = await axios.get(matchUrl);
-        return matchData;
-      })
-    );
-    return matchDataArray;
-  } catch (err) {
-    console.error(err);
-    throw new Error("Error fetching match history");
-  }
-}
-
 export async function getMatchHistory(puuid: string) {
   const matchesURL = `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?api_key=${RIOT_API_KEY}`;
-  const gameIDS = await axios
-    .get(matchesURL)
-    .then((response) => response.data)
-    .catch((err) => err);
+  try {
+    const gameIDS = await axios.get(matchesURL).then((res) => res.data);
 
-  const matchDataArray = [];
-  for (const matchID of gameIDS) {
-    const matchURL = `https://americas.api.riotgames.com/lol/match/v5/matches/${matchID}?api_key=${RIOT_API_KEY}`;
-    const matchData = await axios
-      .get(matchURL)
-      .then((response) => response.data)
-      .catch((err) => err);
-    if (matchData.info.gameMode !== "CHERRY") {
-      //only view non-arena games bc I don't want to make a special component for it
-      matchDataArray.push(matchData);
-    }
+    const matchDataPromises = gameIDS.slice(0, 10).map((matchID: string) => {
+      const matchURL = `https://americas.api.riotgames.com/lol/match/v5/matches/${matchID}?api_key=${RIOT_API_KEY}`;
+      return axios.get(matchURL).then((response) => response.data);
+    });
+
+    const matchDataArray = await Promise.all(matchDataPromises);
+    return matchDataArray.filter(
+      (matchData) => matchData.info.gameMode !== "CHERRY"
+    );
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching match history");
   }
-  return matchDataArray;
 }
 
 export async function getPlayerInfo(playerName: string) {
