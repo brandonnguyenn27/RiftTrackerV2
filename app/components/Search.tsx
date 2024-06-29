@@ -19,7 +19,7 @@ const Search = () => {
   };
 
   return (
-    <div className="m-2">
+    <div>
       <div className="flex flex-wrap justify-center items-center">
         <Input
           type="text"
@@ -28,16 +28,17 @@ const Search = () => {
           placeholder="Enter Summoner Name"
           className="rounded-xl p-2 m-1 sm:w-64 md:w-72 "
         />
+        <p className="text-xl text-white m-1">+</p>
         <Input
           type="text"
           value={playerTag}
           onChange={(e) => setPlayerTag(e.target.value)}
           placeholder="TAG"
-          className="rounded-xl p-2 m-1  sm:w-20 md:w-32 "
+          className="rounded-xl p-3 m-1  sm:w-20 md:w-32 "
         />
         <Button
           onClick={handleSearch}
-          className="rounded-xl border bg-blue-400 text-white p-1 m-1 border-blue-600 w-20 h-10"
+          className="rounded-xl  bg-green-500 text-white p-1 m-1 ml-2  w-20 h-10"
         >
           Search
         </Button>

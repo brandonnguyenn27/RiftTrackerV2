@@ -10,9 +10,9 @@ export default function PlayerPage() {
   if (error) return <div>Error: {error.message}</div>;
   if (!playerData) return <div>No data found</div>;
   return (
-    <>
+    <body>
       <Header />
       <div>{playerData.matchHistory[0].info.gameMode}</div>
-    </>
+    </body>
   );
 }
