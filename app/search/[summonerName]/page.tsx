@@ -13,11 +13,11 @@ export default function PlayerPage() {
   if (error) return <div>Error: {error.message}</div>;
   if (!playerData) return <div>No data found</div>;
   return (
-    <body>
+    <div>
       <Header />
       <div>
         <GameAccordion gameData={playerData.matchHistory[0]}></GameAccordion>
       </div>
-    </body>
+    </div>
   );
 }

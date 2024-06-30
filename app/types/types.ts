@@ -3,6 +3,12 @@ export type Match = {
   metadata: Metadata;
 };
 
+export type Player = {
+  puuid: string;
+  gameName: string;
+  tagLine: string;
+};
+
 export type MatchHistory = {
   matchHistory: Match[];
 };
