@@ -1,7 +1,14 @@
 import { useState, useEffect, use } from "react";
+import { MatchHistory } from "../types/types";
 
-export function UsePlayerData(playerName: string) {
-  const [playerData, setPlayerData] = useState<any>(null);
+interface PlayerData {
+  playerData: MatchHistory | null;
+  loading: boolean;
+  error: Error | null;
+}
+
+export function UsePlayerData(playerName: string): PlayerData {
+  const [playerData, setPlayerData] = useState<MatchHistory | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 

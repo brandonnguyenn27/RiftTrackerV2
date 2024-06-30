@@ -1,7 +1,10 @@
 "use client";
 import { useParams } from "next/navigation";
 import { UsePlayerData } from "@/app/hooks/usePlayerData";
+import { Match } from "@/app/types/types";
 import Header from "@/app/components/Header";
+import GameAccordion from "@/app/components/GameAccordion";
+
 export default function PlayerPage() {
   const summonerName = useParams().summonerName;
   const { playerData, loading, error } = UsePlayerData(summonerName as string);
@@ -12,7 +15,9 @@ export default function PlayerPage() {
   return (
     <body>
       <Header />
-      <div>{playerData.matchHistory[0].info.gameMode}</div>
+      <div>
+        <GameAccordion gameData={playerData.matchHistory[0]}></GameAccordion>
+      </div>
     </body>
   );
 }
