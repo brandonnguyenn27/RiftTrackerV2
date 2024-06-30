@@ -15,7 +15,7 @@ export default function PlayerPage() {
   return (
     <div>
       <Header />
-      <div className="m-10 flex justify-center">
+      <div className="m-4 mt-10 flex justify-center">
         <GameAccordion gameData={playerData.matchHistory[0]}></GameAccordion>
       </div>
     </div>

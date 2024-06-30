@@ -12,9 +12,9 @@ interface GameAccordionProp {
 
 const GameAccordion: React.FC<GameAccordionProp> = ({ gameData }) => {
   return (
-    <div className="m-2 w-60">
+    <div className=" w-3/4 border border-black rounded-lg">
       <Accordion type="single" collapsible>
-        <AccordionItem value="1">
+        <AccordionItem value="1" className="p-3">
           <AccordionTrigger>Click me!</AccordionTrigger>
           <AccordionContent>{gameData.info.gameMode}</AccordionContent>
         </AccordionItem>
