@@ -17,12 +17,20 @@ export function UsePlayerData(playerName: string): PlayerData {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`/api/getSummoner?username=${playerName}`);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+        const cachedData = localStorage.getItem(`playerData-${playerName}`);
+        if (cachedData) {
+          setPlayerData(JSON.parse(cachedData));
+        } else {
+          const response = await fetch(
+            `/api/getSummoner?username=${playerName}`
+          );
+          const data = await response.json();
+          localStorage.setItem(
+            `playerData-${playerName}`,
+            JSON.stringify(data)
+          );
+          setPlayerData(data);
         }
-        const data = await response.json();
-        setPlayerData(data);
       } catch (error) {
         setError(error as Error);
         console.error(error);
