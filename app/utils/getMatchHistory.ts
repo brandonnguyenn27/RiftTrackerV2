@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
-const gameCount = 5; //amount of games to fetch
 export async function getPlayerPUUID(playerNameParam: string) {
   const [playerName, playerTag] = playerNameParam.split("#");
   console.log(playerName, playerTag);
@@ -19,16 +18,21 @@ export async function getPlayerPUUID(playerNameParam: string) {
 export async function getMatchHistory(puuid: string) {
   const matchesURL = `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?api_key=${RIOT_API_KEY}`;
   try {
-    const gameIDS = await axios.get(matchesURL).then((res) => res.data);
+    const response = await axios.get(matchesURL);
+    const gameIDS = response.data;
 
-    const matchDataPromises = gameIDS.slice(0, 10).map((matchID: string) => {
-      const matchURL = `https://americas.api.riotgames.com/lol/match/v5/matches/${matchID}?api_key=${RIOT_API_KEY}`;
-      return axios.get(matchURL).then((response) => response.data);
-    });
+    const matchDataPromises = gameIDS
+      .slice(0, 10)
+      .map(async (matchID: string) => {
+        //take first 10 games bc i get rate limited if its 20
+        const matchURL = `https://americas.api.riotgames.com/lol/match/v5/matches/${matchID}?api_key=${RIOT_API_KEY}`;
+        const matchResponse = await axios.get(matchURL);
+        return matchResponse.data;
+      });
 
     const matchDataArray = await Promise.all(matchDataPromises);
     return matchDataArray.filter(
-      (matchData) => matchData.info.gameMode !== "CHERRY"
+      (matchData) => matchData.info.gameMode !== "CHERRY" //filter out ARENA gamemode
     );
   } catch (error) {
     console.error(error);
