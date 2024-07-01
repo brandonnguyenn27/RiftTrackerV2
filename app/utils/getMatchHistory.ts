@@ -16,7 +16,7 @@ export async function getPlayerPUUID(playerNameParam: string): Promise<string> {
   }
 }
 
-export async function getMatchHistory(puuid: string): Promise<Match[]> {
+export async function getMatchHistory(puuid: string): Promise<MatchHistory> {
   const matchesURL = `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?api_key=${RIOT_API_KEY}`;
   try {
     const response = await axios.get<string[]>(matchesURL);
@@ -33,20 +33,24 @@ export async function getMatchHistory(puuid: string): Promise<Match[]> {
 
     const matchDataArray: Match[] = await Promise.all(matchDataPromises);
 
-    return matchDataArray.filter(
-      (matchData) => matchData.info.gameMode !== "CHERRY" //filter out ARENA gamemode
-    );
+    return {
+      matchHistory: matchDataArray.filter(
+        (matchData) => matchData.info.gameMode !== "CHERRY" //filter out ARENA gamemode
+      ),
+    };
   } catch (error) {
     console.error(error);
     throw new Error("Error fetching match history");
   }
 }
 
-export async function getPlayerInfo(playerName: string): Promise<MatchHistory> {
+export async function getPlayerInfo(
+  playerName: string
+): Promise<{ puuid: string; matchHistory: MatchHistory }> {
   try {
     const puuid = await getPlayerPUUID(playerName);
     const matchHistory = await getMatchHistory(puuid);
-    return { matchHistory };
+    return { puuid, matchHistory };
   } catch (err) {
     console.error(err);
     throw new Error("Error fetching player info");

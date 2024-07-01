@@ -5,12 +5,14 @@ interface PlayerData {
   playerData: MatchHistory | null;
   loading: boolean;
   error: Error | null;
+  puuid: string;
 }
 
 export function UsePlayerData(playerName: string): PlayerData {
   const [playerData, setPlayerData] = useState<MatchHistory | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
+  const [puuid, setPuuid] = useState<string>("");
 
   useEffect(() => {
     async function fetchData() {
@@ -19,7 +21,9 @@ export function UsePlayerData(playerName: string): PlayerData {
       try {
         const cachedData = localStorage.getItem(`playerData-${playerName}`);
         if (cachedData) {
-          setPlayerData(JSON.parse(cachedData));
+          const parsedData = JSON.parse(cachedData);
+          setPlayerData(parsedData.matchHistory);
+          setPuuid(parsedData.puuid);
         } else {
           const response = await fetch(
             `/api/getSummoner?username=${playerName}`
@@ -29,7 +33,8 @@ export function UsePlayerData(playerName: string): PlayerData {
             `playerData-${playerName}`,
             JSON.stringify(data)
           );
-          setPlayerData(data);
+          setPlayerData(data.matchHistory);
+          setPuuid(data.puuid);
         }
       } catch (error) {
         setError(error as Error);
@@ -43,5 +48,5 @@ export function UsePlayerData(playerName: string): PlayerData {
     }
   }, [playerName]);
 
-  return { playerData, loading, error };
+  return { playerData, loading, error, puuid };
 }
