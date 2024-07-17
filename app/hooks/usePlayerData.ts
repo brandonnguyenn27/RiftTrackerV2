@@ -19,7 +19,7 @@ export function UsePlayerData(playerName: string): PlayerData {
       setLoading(true);
       setError(null);
       try {
-        const cachedData = localStorage.getItem(`playerData-${playerName}`);
+        const cachedData = sessionStorage.getItem(`playerData-${playerName}`);
         if (cachedData) {
           const parsedData = JSON.parse(cachedData);
           setPlayerData(parsedData.matchHistory);
@@ -29,7 +29,7 @@ export function UsePlayerData(playerName: string): PlayerData {
             `/api/getSummoner?username=${playerName}`
           );
           const data = await response.json();
-          localStorage.setItem(
+          sessionStorage.setItem(
             `playerData-${playerName}`,
             JSON.stringify(data)
           );

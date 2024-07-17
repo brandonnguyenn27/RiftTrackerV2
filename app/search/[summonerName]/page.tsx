@@ -24,11 +24,10 @@ export default function PlayerPage() {
     <div>
       <Header />
       <PlayerHeader {...currentPlayerInfo} />
-      <div className="mt-8 flex justify-center">
-        <GameAccordion
-          gameData={playerData.matchHistory[0]}
-          puuid={puuid}
-        ></GameAccordion>
+      <div className="mt-8 flex justify-center flex-col items-center">
+        {playerData.matchHistory.map((gameData, index) => (
+          <GameAccordion key={index} gameData={gameData} puuid={puuid} />
+        ))}
       </div>
     </div>
   );
