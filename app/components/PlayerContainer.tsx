@@ -20,11 +20,11 @@ const PlayerContainer = ({ player }: { player: Participant }) => {
           href={`/search/${encodeURIComponent(
             player.riotIdGameName
           )}%23${encodeURIComponent(player.riotIdTagline)}`}
-          className="hover:underline"
+          className="hover:underline inline-block w-32 truncate "
         >
           {player.riotIdGameName}#{player.riotIdTagline}
         </Link>
-        <p className="ml-6">
+        <p className="ml-4 w-20 text-center truncate ">
           {player.kills}/{player.deaths}/{player.assists}
         </p>
         <div className="ml-6 flex justify-center">

@@ -35,7 +35,9 @@ export async function getMatchHistory(puuid: string): Promise<MatchHistory> {
 
     return {
       matchHistory: matchDataArray.filter(
-        (matchData) => matchData.info.gameMode !== "CHERRY" //filter out ARENA gamemode
+        (matchData) =>
+          matchData.info.gameMode !== "CHERRY" &&
+          matchData.info.gameMode !== "STRAWBERRY" //filter out ARENA gamemode
       ),
     };
   } catch (error) {

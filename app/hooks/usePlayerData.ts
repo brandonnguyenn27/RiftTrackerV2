@@ -28,6 +28,9 @@ export function UsePlayerData(playerName: string): PlayerData {
           const response = await fetch(
             `/api/getSummoner?username=${playerName}`
           );
+          if (!response.ok) {
+            throw new Error("Failed to fetch player data");
+          }
           const data = await response.json();
           sessionStorage.setItem(
             `playerData-${playerName}`,

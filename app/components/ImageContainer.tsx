@@ -6,13 +6,15 @@ const ItemImageContainer = ({ imageID }: { imageID: number }) => {
       {imageID == 0 ? (
         <div className="border-1 rounded-md border-gray-400 border-opacity-70 h-7 w-7 bg-slate-500 opacity-50"></div>
       ) : (
-        <Image
-          src={`/profileIconplaceholder.png`}
-          alt="item image"
-          height={28}
-          width={28}
-          className="rounded-lg"
-        />
+        <div h-7 w-7>
+          <Image
+            src={`/profileIconplaceholder.png`}
+            alt="item image"
+            width={28}
+            height={28}
+            className="rounded-lg"
+          />
+        </div>
       )}
     </div>
   );
