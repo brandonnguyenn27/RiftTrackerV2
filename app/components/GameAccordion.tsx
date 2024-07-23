@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Match } from "../types/types";
+import { Match } from "../types/GameDataTypes";
 import PlayerContainer from "./PlayerContainer";
 import DamageContext from "../utils/DamageContext";
 const GameAccordion: React.FC<{ gameData: Match; puuid: string }> = ({

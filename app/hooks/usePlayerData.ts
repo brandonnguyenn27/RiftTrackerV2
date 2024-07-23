@@ -1,5 +1,5 @@
 import { useState, useEffect, use } from "react";
-import { MatchHistory } from "../types/types";
+import { MatchHistory } from "../types/GameDataTypes";
 
 interface PlayerData {
   playerData: MatchHistory | null;

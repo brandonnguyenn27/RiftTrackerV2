@@ -1,4 +1,4 @@
-import { Participant } from "../types/types";
+import { Participant } from "../types/GameDataTypes";
 import Image from "next/image";
 import ItemImageContainer from "./ImageContainer";
 import Link from "next/link";

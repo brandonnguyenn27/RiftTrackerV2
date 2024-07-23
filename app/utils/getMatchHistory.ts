@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MatchHistory, Match, Player } from "../types/types";
+import { MatchHistory, Match, Player } from "../types/GameDataTypes";
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
 
 export async function getPlayerPUUID(playerNameParam: string): Promise<string> {

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Participant } from "../types/types";
+import { Participant } from "../types/GameDataTypes";
 const PlayerHeader = (playerInfo: Participant) => {
   const iconId = playerInfo.profileIcon;
   return (
