@@ -7,6 +7,9 @@ import {
 import { Match } from "../types/GameDataTypes";
 import PlayerContainer from "./PlayerContainer";
 import DamageContext from "../utils/DamageContext";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { DamageChartComponent } from "./DamageChart";
 const GameAccordion: React.FC<{ gameData: Match; puuid: string }> = ({
   gameData,
   puuid,
@@ -19,6 +22,7 @@ const GameAccordion: React.FC<{ gameData: Match; puuid: string }> = ({
   const maxDamage = Math.max(
     ...gameData.info.participants.map((p) => p.totalDamageDealtToChampions)
   );
+  const [view, setView] = useState("default");
 
   return (
     <div className=" w-2/3 m-0.5">
@@ -41,23 +45,43 @@ const GameAccordion: React.FC<{ gameData: Match; puuid: string }> = ({
                 </span>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="h-80">
-              <div className="flex h-full">
-                <div className="w-1/2 h-full border">
-                  {gameData.info.participants
-                    .slice(0, 5)
-                    .map((participant, index) => (
-                      <PlayerContainer key={index} player={participant} />
-                    ))}
-                </div>
-                <div className="w-1/2 h-full border">
-                  {gameData.info.participants
-                    .slice(5, 10)
-                    .map((participant, index) => (
-                      <PlayerContainer key={index} player={participant} />
-                    ))}
-                </div>
+            <AccordionContent>
+              <div className="flex justify-center space-x-4 my-1 border rounded-sm">
+                <Button
+                  className="bg-slate-400 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded w-3/12 h-1/5"
+                  onClick={() => setView("default")}
+                >
+                  Stats
+                </Button>
+                <Button
+                  className="bg-slate-400 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded w-3/12 h-1/5"
+                  onClick={() => setView("chart")}
+                >
+                  Graphs
+                </Button>
               </div>
+              {view === "default" ? (
+                <div className="flex h-80">
+                  <div className="w-1/2 flex flex-col overflow-auto">
+                    {gameData.info.participants
+                      .slice(0, 5)
+                      .map((participant, index) => (
+                        <PlayerContainer player={participant} key={index} />
+                      ))}
+                  </div>
+                  <div className="w-1/2 flex flex-col overflow-auto">
+                    {gameData.info.participants
+                      .slice(5, 10)
+                      .map((participant, index) => (
+                        <PlayerContainer player={participant} key={index} />
+                      ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="">
+                  <DamageChartComponent />
+                </div>
+              )}
             </AccordionContent>
           </AccordionItem>
         </Accordion>

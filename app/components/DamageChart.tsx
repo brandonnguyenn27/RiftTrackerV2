@@ -18,21 +18,21 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
+  { month: "January", team1: 186, team2: 80 },
+  { month: "February", team1: 305, team2: 200 },
+  { month: "March", team1: 237, team2: 120 },
+  { month: "April", team1: 73, team2: 190 },
+  { month: "May", team1: 209, team2: 130 },
+  { month: "June", team1: 214, team2: 140 },
 ];
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  team1: {
+    label: "Team 1",
     color: "hsl(var(--chart-1))",
   },
-  mobile: {
-    label: "Mobile",
+  team2: {
+    label: "Team 2",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
@@ -56,7 +56,7 @@ export function DamageChartComponent() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="time"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
@@ -64,16 +64,16 @@ export function DamageChartComponent() {
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Line
-              dataKey="desktop"
+              dataKey="team1"
               type="monotone"
-              stroke="var(--color-desktop)"
+              stroke="var(--color-team1)"
               strokeWidth={2}
               dot={false}
             />
             <Line
-              dataKey="mobile"
+              dataKey="team2"
               type="monotone"
-              stroke="var(--color-mobile)"
+              stroke="var(--color-team2)"
               strokeWidth={2}
               dot={false}
             />

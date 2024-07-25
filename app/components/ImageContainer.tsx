@@ -12,7 +12,7 @@ const ItemImageContainer = ({ imageID }: { imageID: number }) => {
             alt="item image"
             width={28}
             height={28}
-            className="rounded-lg"
+            className="rounded-lg border border-black border-opacity-50"
           />
         </div>
       )}

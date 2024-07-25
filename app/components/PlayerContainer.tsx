@@ -5,9 +5,9 @@ import Link from "next/link";
 import DamageBar from "./DamageBar";
 const PlayerContainer = ({ player }: { player: Participant }) => {
   return (
-    <div className="border border-b-1 rounded-sm p-1 h-1/5 flex items-center ">
+    <div className="border border-b-1 rounded-sm p-1 flex items-center flex-grow">
       <div className="flex items-center m-1">
-        <div className="">
+        <div>
           <Image
             src={`/profileIconplaceholder.png`}
             width={30}
