@@ -10,6 +10,7 @@ import DamageContext from "../utils/DamageContext";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DamageChartComponent } from "./DamageChart";
+import useFetchMatchTimeline from "../hooks/fetchTimeline";
 const GameAccordion: React.FC<{ gameData: Match; puuid: string }> = ({
   gameData,
   puuid,
@@ -23,7 +24,16 @@ const GameAccordion: React.FC<{ gameData: Match; puuid: string }> = ({
     ...gameData.info.participants.map((p) => p.totalDamageDealtToChampions)
   );
   const [view, setView] = useState("default");
-
+  const [dataFetched, setDataFetched] = useState(false);
+  const { damageData, loading, error } = useFetchMatchTimeline(
+    gameData.metadata.matchId
+  );
+  const handleGraphsClick = () => {
+    setView("chart");
+    if (!dataFetched) {
+      setDataFetched(true);
+    }
+  };
   return (
     <div className=" w-2/3 m-0.5">
       <DamageContext.Provider value={maxDamage}>
@@ -46,22 +56,22 @@ const GameAccordion: React.FC<{ gameData: Match; puuid: string }> = ({
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              <div className="flex justify-center space-x-4 my-1 border rounded-sm">
+              <div className="flex justify-center space-x-4 my-1">
                 <Button
-                  className="bg-slate-400 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded w-3/12 h-1/5"
+                  className="bg-slate-400 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded w-1/2 h-8"
                   onClick={() => setView("default")}
                 >
                   Stats
                 </Button>
                 <Button
-                  className="bg-slate-400 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded w-3/12 h-1/5"
-                  onClick={() => setView("chart")}
+                  className="bg-slate-400 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded w-1/2 h-8"
+                  onClick={handleGraphsClick}
                 >
                   Graphs
                 </Button>
               </div>
               {view === "default" ? (
-                <div className="flex h-80">
+                <div className="flex h-96">
                   <div className="w-1/2 flex flex-col overflow-auto">
                     {gameData.info.participants
                       .slice(0, 5)
@@ -78,8 +88,14 @@ const GameAccordion: React.FC<{ gameData: Match; puuid: string }> = ({
                   </div>
                 </div>
               ) : (
-                <div className="">
-                  <DamageChartComponent />
+                <div className="flex justify-center h-96">
+                  {loading ? (
+                    <span>Loading...</span>
+                  ) : error ? (
+                    <span>Error: {error.message}</span>
+                  ) : (
+                    <DamageChartComponent data={damageData} />
+                  )}
                 </div>
               )}
             </AccordionContent>
