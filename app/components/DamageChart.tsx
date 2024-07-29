@@ -6,6 +6,7 @@ import {
   Line,
   LineChart,
   XAxis,
+  YAxis,
   ResponsiveContainer,
 } from "recharts";
 
@@ -41,50 +42,53 @@ export function DamageChartComponent({ data }: { data: number[][] }) {
   const chartData = transformDamageData(data);
   console.log(chartData);
   return (
-    <div>
-      <Card style={{ width: "100%", height: "100%" }}>
-        <CardHeader>
-          <CardTitle>Team Damage Chart</CardTitle>
-        </CardHeader>
-        <CardContent style={{ width: "100%", height: "100%" }}>
-          {" "}
-          {/* Ensure a fixed height or use a percentage if the parent has a defined height */}
-          <ChartContainer config={chartConfig} style={{ height: "100%" }}>
-            <LineChart
-              accessibilityLayer
-              data={chartData}
-              margin={{
-                left: 12,
-                right: 12,
-              }}
-            >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="time"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                tickFormatter={(value) => value.toString().slice(0, 3)}
-              />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              <Line
-                dataKey="team1"
-                type="monotone"
-                stroke="var(--color-team1)"
-                strokeWidth={2}
-                dot={false}
-              />
-              <Line
-                dataKey="team2"
-                type="monotone"
-                stroke="var(--color-team2)"
-                strokeWidth={2}
-                dot={false}
-              />
-            </LineChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
-    </div>
+    <Card className="w-[600px] h-96">
+      <CardHeader>
+        <CardTitle>Team Damage</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig}>
+          <LineChart
+            accessibilityLayer
+            data={chartData}
+            margin={{
+              left: 12,
+              right: 12,
+            }}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="time"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) => value.toString().slice(0, 3)}
+            />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) => value.toLocaleString()}
+            />
+
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <Line
+              dataKey="team1"
+              type="monotone"
+              stroke="var(--color-team1)"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              dataKey="team2"
+              type="monotone"
+              stroke="var(--color-team2)"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
   );
 }

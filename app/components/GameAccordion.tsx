@@ -88,13 +88,15 @@ const GameAccordion: React.FC<{ gameData: Match; puuid: string }> = ({
                   </div>
                 </div>
               ) : (
-                <div className="flex justify-center h-96">
+                <div className="flex justify-center">
                   {loading ? (
                     <span>Loading...</span>
                   ) : error ? (
                     <span>Error: {error.message}</span>
                   ) : (
-                    <DamageChartComponent data={damageData} />
+                    <div>
+                      <DamageChartComponent data={damageData} />
+                    </div>
                   )}
                 </div>
               )}
